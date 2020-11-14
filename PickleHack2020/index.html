@@ -2,9 +2,151 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newman PickleHack 2020</title>
+    <link rel="stylesheet" href="/Desktop/PickleHack2020/picklhack.css">
+
+    <style media="screen">
+      body{
+        background-size: cover;
+        background-image: url("https://images.unsplash.com/photo-1583173451851-dd9ba01f891e?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+        min-height: 100%;
+        background-position: center center;
+      }
+      .bg-image {
+        background-image: url("https://images.unsplash.com/photo-1583173451851-dd9ba01f891e?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80");
+        background-position: bottom;
+        background-repeat: repeat;
+        background-size: cover;
+      }
+
+      .blur {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+        height: 100vh;
+        width: 100%;
+      }
+      .header {
+        padding: 40px;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      #rainbow-title {
+        background-image: repeating-linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red, violet);
+        -webkit-background-clip: text;
+        color: transparent;
+        text-align: center;
+        animation: rainbow_animation 6s ease-in-out infinite;
+        background-size: 400% 100%;
+      }
+      @keyframes rainbow_animation {
+        0%,100% {
+          background-position: 0 0;
+        }
+        50% {
+          background-position: 100% 0;
+        }
+      }
+
+      #instructions {
+        text-align: center;
+      }
+
+      .buttons-bar {
+        margin-top: 100px;
+      }
+      #countdown {
+        float: right;
+        padding: 10px;
+      }
+
+      #timer {
+        float: left;
+        padding: 10px;
+      }
+
+      #checkSolution {
+        float: right;
+        padding: 10px;
+        margin: 0px 10px 0px 10px;
+      }
+
+      #spotify {
+        float: right;
+        margin-top: 100px;
+        margin-left: 400px;
+      }
+    </style>
+
+
   </head>
   <body>
-      <h1>Solve This Sudoku</h1>
+
+    <div class="bg-image">
+      <div class="blur">
+        <div class="header">
+          <h1 id="rainbow-title">Spiffy Title</h1>
+          <h3>"Cheesy Quote" -Some inspirational person</h3>
+        </div>
+        <div id="instructions">
+          <h2>Specific sudoku instructions here</h2>
+        </div>
+        <div class="buttons-bar">
+          <button id="timer">Time taken: <span id="hours">00</span>:<span id="mins">00</span>:<span id="secs">00</span></button>
+          <button type="button" id="countdown" onclick="AddSeconds()"><span id="countdownsecs">05:00</span></button>
+          <button type="button" id="checkSolution">Check Solution</button>
+        </div>
+        <p id="spotify"><iframe src="https://open.spotify.com/embed/playlist/0Ie5X3JS6BrLSWKrRm310H" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p>
+      </div>
+    </div>
+
+
+    <script>
+      setInterval(countUpTimer, 1000);
+      var totalSeconds = 0;
+      var puzzleSolved = false;
+      function countUpTimer() {
+        ++totalSeconds;
+        var hour = Math.floor(totalSeconds /3600);
+        var minute = Math.floor((totalSeconds - hour*3600)/60);
+        var seconds = totalSeconds - (hour*3600 + minute*60);
+        minStr = minute.toString();
+        secStr = seconds.toString();
+        hourStr = hour.toString();
+        if(minute < 10)
+          minStr = "0" + minute.toString();
+        if(seconds < 10)
+          secStr = "0" + seconds.toString();
+        if(hour < 10)
+          hourStr = "0" + hour.toString();
+        document.getElementById("mins").innerHTML = minStr;
+        document.getElementById("secs").innerHTML = secStr;
+        document.getElementById("hours").innerHTML = hourStr;
+      }
+      startingSeconds = 300;
+      setInterval(hintTimer, 1000);
+      function AddSeconds() {
+        if (startingSeconds == 0) {
+          startingSeconds = 300;
+        }
+      }
+      function hintTimer() {
+        if (startingSeconds > 0) {
+          --startingSeconds;
+          var minute = Math.floor((startingSeconds)/60);
+          var seconds = startingSeconds - (minute*60);
+          minStr = minute.toString();
+          secStr = seconds.toString();
+          if(minute < 10)
+            minStr = "0" + minute.toString();
+          if(seconds < 10)
+            secStr = "0" + seconds.toString();
+          document.getElementById("countdownsecs").innerHTML = "Time to next hint: " + minStr+':'+secStr;
+        } else {
+          document.getElementById("countdownsecs").innerHTML = "Click for Hint";
+        }
+      }
+    </script>
   </body>
 </html>
